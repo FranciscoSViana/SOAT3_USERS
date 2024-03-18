@@ -1,0 +1,75 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'SOAT3-USERS
+
+  Sample SAM Template for SOAT3-USERS
+
+  '
+Globals:
+  Function:
+    Timeout: 20
+    MemorySize: 512
+    Runtime: java17
+    Architectures:
+    - x86_64
+    Environment:
+      Variables:
+        MY_COGNITO_POOL_APP_CLIENT_ID: 3na7f8vdl977dcsepgst2gcj74
+        MY_COGNITO_POOL_APP_CLIENT_SECRET: 1g0l712befntvm5p40tc99a1k43rnjehapbclnkukroafhc6ntq2
+Resources:
+  CreateUserHandlerLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: CreateUserHandlerLambdaFunction
+      Handler: com.tech.challenge.soat3.users.CreateUserHandler::handleRequest
+      Events:
+        CreateUser:
+          Type: Api
+          Properties:
+            Path: /users
+            Method: post
+    Metadata:
+      SamResourceId: CreateUserHandlerLambdaFunction
+  ConfirmUserHandlerLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ConfirmUserHandlerLambdaFunction
+      Handler: com.tech.challenge.soat3.users.ConfirmUserHandler::handleRequest
+      Events:
+        ConfirmUser:
+          Type: Api
+          Properties:
+            Path: /confirm
+            Method: post
+    Metadata:
+      SamResourceId: ConfirmUserHandlerLambdaFunction
+  LoginUserHandlerLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: LoginUserHandlerLambdaFunction
+      Handler: com.tech.challenge.soat3.users.LoginUserHandler::handleRequest
+      Events:
+        LoginUser:
+          Type: Api
+          Properties:
+            Path: /login
+            Method: post
+    Metadata:
+      SamResourceId: LoginUserHandlerLambdaFunction
+Outputs:
+  Soat3LambdadApi:
+    Description: API Gateway endpoint URL for Prod stage for Hello World function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/users
+  CreateUserHandlerLambdaFunction:
+    Description: Hello World Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - CreateUserHandlerLambdaFunction
+      - Arn
+  CreateUserHandlerLambdaFunctionIamRole:
+    Description: Implicit IAM Role created for Hello World function
+    Value:
+      Fn::GetAtt:
+      - CreateUserHandlerLambdaFunctionRole
+      - Arn
