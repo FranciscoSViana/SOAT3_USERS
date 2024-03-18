@@ -25,6 +25,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Sam Build
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: sam build --use-container
       - name: Sam Deploy
         run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name SOAT3-USERS --s3-bucket soat3 --capabilities CAPABILITY_IAM --region us-east-1
