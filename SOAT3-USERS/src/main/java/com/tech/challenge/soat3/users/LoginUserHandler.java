@@ -44,7 +44,7 @@ public class LoginUserHandler implements RequestHandler<APIGatewayProxyRequestEv
 
             response.withBody(new Gson().toJson(loginResult, JsonObject.class));
             response.withStatusCode(200);
-            logger.log("Deu certo");
+            logger.log("Deu certo com o Login");
         } catch (AwsServiceException e) {
             logger.log(e.awsErrorDetails().errorMessage());
 
